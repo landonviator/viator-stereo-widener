@@ -5,6 +5,12 @@
               companyName="Viator DSP" pluginName="Stereo Widener">
   <MAINGROUP id="l18WhJ" name="viator-stereo-widener">
     <GROUP id="{25BA77C4-9879-7B53-EFCD-A1BEAB87FFED}" name="Source">
+      <GROUP id="{80A990FF-65D3-22CB-7AF3-BDA5EBE920E8}" name="globals">
+        <FILE id="QpYpmY" name="Globals.cpp" compile="1" resource="0" file="Source/globals/Globals.cpp"/>
+        <FILE id="MAky6x" name="Globals.h" compile="0" resource="0" file="Source/globals/Globals.h"/>
+        <FILE id="GqqM0z" name="Parameters.cpp" compile="1" resource="0" file="Source/globals/Parameters.cpp"/>
+        <FILE id="qIxaTn" name="Parameters.h" compile="0" resource="0" file="Source/globals/Parameters.h"/>
+      </GROUP>
       <FILE id="Akrqg8" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="dDURYQ" name="PluginProcessor.h" compile="0" resource="0"

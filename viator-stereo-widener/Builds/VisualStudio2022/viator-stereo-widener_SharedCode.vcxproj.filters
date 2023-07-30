@@ -2,6 +2,9 @@
 
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="viator-stereo-widener\Source\globals">
+      <UniqueIdentifier>{1773EC13-58B1-3A5A-96A0-28FB5EC2166A}</UniqueIdentifier>
+    </Filter>
     <Filter Include="viator-stereo-widener\Source">
       <UniqueIdentifier>{A3F0E265-D6C7-857A-A455-F6BC24FC341A}</UniqueIdentifier>
     </Filter>
@@ -637,6 +640,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\globals\Globals.cpp">
+      <Filter>viator-stereo-widener\Source\globals</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\globals\Parameters.cpp">
+      <Filter>viator-stereo-widener\Source\globals</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\PluginProcessor.cpp">
       <Filter>viator-stereo-widener\Source</Filter>
     </ClCompile>
@@ -3055,6 +3064,9 @@
     <ClCompile Include="..\..\..\modules\viatordsp\viator_modules\viator_dsp\Filter\BrickWallLPF.cpp">
       <Filter>JUCE Modules\viator_modules\viator_dsp\Filter</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\modules\viatordsp\viator_modules\viator_dsp\Filter\FastFilter.cpp">
+      <Filter>JUCE Modules\viator_modules\viator_dsp\Filter</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\modules\viatordsp\viator_modules\viator_dsp\Filter\MultiBandProcessor.cpp">
       <Filter>JUCE Modules\viator_modules\viator_dsp\Filter</Filter>
     </ClCompile>
@@ -3186,6 +3198,12 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\globals\Globals.h">
+      <Filter>viator-stereo-widener\Source\globals</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\globals\Parameters.h">
+      <Filter>viator-stereo-widener\Source\globals</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\PluginProcessor.h">
       <Filter>viator-stereo-widener\Source</Filter>
     </ClInclude>
@@ -6046,6 +6064,9 @@
       <Filter>JUCE Modules\viator_modules\viator_dsp\Dynamics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\modules\viatordsp\viator_modules\viator_dsp\Filter\BrickWallLPF.h">
+      <Filter>JUCE Modules\viator_modules\viator_dsp\Filter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\modules\viatordsp\viator_modules\viator_dsp\Filter\FastFilter.h">
       <Filter>JUCE Modules\viator_modules\viator_dsp\Filter</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\modules\viatordsp\viator_modules\viator_dsp\Filter\MultiBandProcessor.h">

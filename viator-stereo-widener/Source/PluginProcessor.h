@@ -1,7 +1,9 @@
 #pragma once
 #include <JuceHeader.h>
+#include "globals/Parameters.h"
 
 class ViatorstereowidenerAudioProcessor  : public juce::AudioProcessor
+, public juce::AudioProcessorValueTreeState::Listener
 {
 public:
     //==============================================================================
@@ -41,6 +43,10 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    // parameters
+    ViatorParameters::Params _parameterMap;
+    juce::AudioProcessorValueTreeState _treeState;
+    
     float getCPULoad();
     
 private:
@@ -50,7 +56,15 @@ private:
     juce::OwnedArray<viator_dsp::SVFilter<float>> _filters;
     juce::AudioProcessLoadMeasurer _cpuMeasureModule;
     std::atomic<float> _cpuLoad;
-    juce::OwnedArray<viator_dsp::FilterBank<float>> _filterBank;
+    juce::OwnedArray<viator_dsp::FastFilter<float>> _filterBank;
+    
+    // parameters
+    juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
+    void parameterChanged (const juce::String& parameterID, float newValue) override;
+    using Parameter = juce::AudioProcessorValueTreeState::Parameter;
+    static juce::String valueToTextFunction(float x) { return juce::String(static_cast<int>(x)); }
+    static float textToValueFunction(const juce::String& str) { return str.getFloatValue(); }
+    void updateParameters();
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ViatorstereowidenerAudioProcessor)
 };

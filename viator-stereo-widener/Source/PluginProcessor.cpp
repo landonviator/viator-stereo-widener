@@ -7,12 +7,35 @@ ViatorstereowidenerAudioProcessor::ViatorstereowidenerAudioProcessor()
                        .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                        )
+, _treeState(*this, nullptr, "PARAMETERS", createParameterLayout())
 #endif
 {
+    // sliders
+    for (int i = 0; i < _parameterMap.getSliderParams().size(); i++)
+    {
+        _treeState.addParameterListener(_parameterMap.getSliderParams()[i].paramID, this);
+    }
+    
+    // buttons
+    for (int i = 0; i < _parameterMap.getButtonParams().size(); i++)
+    {
+        _treeState.addParameterListener(_parameterMap.getButtonParams()[i]._id, this);
+    }
 }
 
 ViatorstereowidenerAudioProcessor::~ViatorstereowidenerAudioProcessor()
 {
+    // sliders
+    for (int i = 0; i < _parameterMap.getSliderParams().size(); i++)
+    {
+        _treeState.removeParameterListener(_parameterMap.getSliderParams()[i].paramID, this);
+    }
+    
+    // buttons
+    for (int i = 0; i < _parameterMap.getButtonParams().size(); i++)
+    {
+        _treeState.removeParameterListener(_parameterMap.getButtonParams()[i]._id, this);
+    }
 }
 
 const juce::String ViatorstereowidenerAudioProcessor::getName() const
@@ -76,6 +99,58 @@ void ViatorstereowidenerAudioProcessor::changeProgramName (int index, const juce
 {
 }
 
+juce::AudioProcessorValueTreeState::ParameterLayout ViatorstereowidenerAudioProcessor::createParameterLayout()
+{
+    std::vector <std::unique_ptr<juce::RangedAudioParameter>> params;
+    
+    // sliders
+    for (int i = 0; i < _parameterMap.getSliderParams().size(); i++)
+    {
+        auto param = _parameterMap.getSliderParams()[i];
+
+        if (param.isInt == ViatorParameters::SliderParameterData::NumericType::kInt || param.isSkew == ViatorParameters::SliderParameterData::SkewType::kSkew)
+        {
+            auto range = juce::NormalisableRange<float>(param.min, param.max);
+
+            if (param.isSkew == ViatorParameters::SliderParameterData::SkewType::kSkew)
+            {
+                range.setSkewForCentre(param.center);
+            }
+
+            params.push_back (std::make_unique<juce::AudioProcessorValueTreeState::Parameter>(juce::ParameterID { param.paramID, 1 }, param.name, param.name, range, param.initial, valueToTextFunction, textToValueFunction));
+        }
+
+        else
+        {
+            params.push_back (std::make_unique<juce::AudioParameterFloat>(juce::ParameterID { param.paramID, 1 }, param.name, param.min, param.max, param.initial));
+        }
+    }
+    
+    // buttons
+    for (int i = 0; i < _parameterMap.getButtonParams().size(); i++)
+    {
+        auto param = _parameterMap.getButtonParams()[i];
+        params.push_back (std::make_unique<juce::AudioParameterBool>(juce::ParameterID { param._id, 1 }, param._name, false));
+    }
+    
+    return { params.begin(), params.end() };
+}
+
+void ViatorstereowidenerAudioProcessor::parameterChanged(const juce::String &parameterID, float newValue)
+
+{
+    updateParameters();
+}
+
+void ViatorstereowidenerAudioProcessor::updateParameters()
+{
+    auto lp = _treeState.getRawParameterValue(ViatorParameters::lpID)->load();
+    for (int i = 0; i < 10; i++)
+    {
+        _filterBank[i]->updateParameters(lp, 0.7, 1.0);
+    }
+}
+
 #pragma mark Prepare
 void ViatorstereowidenerAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
@@ -85,7 +160,7 @@ void ViatorstereowidenerAudioProcessor::prepareToPlay (double sampleRate, int sa
     
     for (int i = 0; i < 10; i++)
     {
-        _filterBank.add(std::make_unique<viator_dsp::FilterBank<float>>());
+        _filterBank.add(std::make_unique<viator_dsp::FastFilter<float>>());
         _filterBank[i]->prepare(m_spec);
     }
     
@@ -150,7 +225,8 @@ bool ViatorstereowidenerAudioProcessor::hasEditor() const{return true;}
 #pragma mark Editor
 juce::AudioProcessorEditor* ViatorstereowidenerAudioProcessor::createEditor()
 {
-    return new ViatorstereowidenerAudioProcessorEditor (*this);
+    //return new ViatorstereowidenerAudioProcessorEditor (*this);
+    return new juce::GenericAudioProcessorEditor (*this);
 }
 
 #pragma mark Get/Set State
