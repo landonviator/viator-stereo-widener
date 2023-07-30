@@ -13,28 +13,36 @@
 ViatorstereowidenerAudioProcessorEditor::ViatorstereowidenerAudioProcessorEditor (ViatorstereowidenerAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
-    // Make sure that before the constructor has finished, you've set the
-    // editor's size to whatever you need it to be.
-    setSize (400, 300);
+    // cpu label
+    addAndMakeVisible(_cpuLabel);
+    _cpuLabel.setColour(juce::Label::ColourIds::textColourId, juce::Colours::whitesmoke.withAlpha(0.5f));
+    _cpuLabel.setFont(juce::Font("Helvetica", 16.0f, juce::Font::FontStyleFlags::bold));
+    _cpuLabel.setJustificationType(juce::Justification::centred);
+    
+    // window
+    viator_utils::PluginWindow::setPluginWindowSize(0, 0, *this, 1.0, 0.5);
+    
+    startTimerHz(4);
 }
 
 ViatorstereowidenerAudioProcessorEditor::~ViatorstereowidenerAudioProcessorEditor()
 {
+    stopTimer();
 }
 
 //==============================================================================
 void ViatorstereowidenerAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-
-    g.setColour (juce::Colours::white);
-    g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
+    g.fillAll (juce::Colour::fromRGB(44, 48, 69));
 }
 
 void ViatorstereowidenerAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+    _cpuLabel.setBounds(getLocalBounds().withSizeKeepingCentre(getWidth() * 0.1, getWidth() * 0.1));
+}
+
+void ViatorstereowidenerAudioProcessorEditor::timerCallback()
+{
+    _cpuLabel.setText(juce::String(std::round(audioProcessor.getCPULoad()), 0) + " %", juce::dontSendNotification);
+    repaint();
 }

@@ -1,22 +1,7 @@
-/*
-  ==============================================================================
-
-    This file contains the basic framework code for a JUCE plugin processor.
-
-  ==============================================================================
-*/
-
 #pragma once
-
 #include <JuceHeader.h>
 
-//==============================================================================
-/**
-*/
 class ViatorstereowidenerAudioProcessor  : public juce::AudioProcessor
-                            #if JucePlugin_Enable_ARA
-                             , public juce::AudioProcessorARAExtension
-                            #endif
 {
 public:
     //==============================================================================
@@ -56,7 +41,15 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    float getCPULoad();
+    
 private:
-    //==============================================================================
+    
+    // dsp
+    juce::dsp::ProcessSpec m_spec;
+    juce::OwnedArray<viator_dsp::SVFilter<float>> _filters;
+    juce::AudioProcessLoadMeasurer _cpuMeasureModule;
+    std::atomic<float> _cpuLoad;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ViatorstereowidenerAudioProcessor)
 };

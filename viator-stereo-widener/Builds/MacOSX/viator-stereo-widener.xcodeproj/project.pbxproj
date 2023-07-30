@@ -41,6 +41,7 @@
 		59C08EAC9B3BFEE8A6EB76C9 /* Accelerate.framework */ = {isa = PBXBuildFile; fileRef = 28AA93DD4730AE584362F53A; };
 		6027B9FF4DD061AB4C41856B /* Foundation.framework */ = {isa = PBXBuildFile; fileRef = C46BD62AABF21D0EC76963BC; };
 		63337F99248CF1BA250EEAB5 /* CoreMIDI.framework */ = {isa = PBXBuildFile; fileRef = F4A4B71A8F94942272DF7B1C; };
+		690C88698F259BA814DB2FD2 /* include_juce_dsp.mm */ = {isa = PBXBuildFile; fileRef = 9805FCFB55F92EC2A83A5CFD; };
 		6A91C3E3201E4ECB99841F30 /* include_juce_audio_devices.mm */ = {isa = PBXBuildFile; fileRef = 818C809255C9AE789EF296B2; };
 		7331BF446AB7BDC22B38D96A /* AU */ = {isa = PBXBuildFile; fileRef = 23010EE6A5E009AED41F4436; };
 		77B811D4DB0D7F6ED289899D /* include_juce_audio_processors_ara.cpp */ = {isa = PBXBuildFile; fileRef = ABC66281E3468E6906ADE8DB; };
@@ -101,12 +102,14 @@
 		7C3D0FFCAAD28FD38B36FBCC /* include_juce_core.mm */ /* include_juce_core.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_core.mm; path = ../../JuceLibraryCode/include_juce_core.mm; sourceTree = SOURCE_ROOT; };
 		818C809255C9AE789EF296B2 /* include_juce_audio_devices.mm */ /* include_juce_audio_devices.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_audio_devices.mm; path = ../../JuceLibraryCode/include_juce_audio_devices.mm; sourceTree = SOURCE_ROOT; };
 		8235F435B68FAF536071BE08 /* include_juce_data_structures.mm */ /* include_juce_data_structures.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_data_structures.mm; path = ../../JuceLibraryCode/include_juce_data_structures.mm; sourceTree = SOURCE_ROOT; };
+		8D144CB8C75E58497A922AF9 /* juce_dsp */ /* juce_dsp */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_dsp; path = ../../../modules/JUCE/modules/juce_dsp; sourceTree = SOURCE_ROOT; };
 		8FBF5C8183A6BADC56124E91 /* juce_audio_plugin_client */ /* juce_audio_plugin_client */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_audio_plugin_client; path = ../../../modules/JUCE/modules/juce_audio_plugin_client; sourceTree = SOURCE_ROOT; };
 		9077E8D13C7AA6530D58F3A9 /* include_juce_audio_plugin_client_ARA.cpp */ /* include_juce_audio_plugin_client_ARA.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = include_juce_audio_plugin_client_ARA.cpp; path = ../../JuceLibraryCode/include_juce_audio_plugin_client_ARA.cpp; sourceTree = SOURCE_ROOT; };
 		90A71C0C87CF38AF34326318 /* include_juce_audio_plugin_client_utils.cpp */ /* include_juce_audio_plugin_client_utils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = include_juce_audio_plugin_client_utils.cpp; path = ../../JuceLibraryCode/include_juce_audio_plugin_client_utils.cpp; sourceTree = SOURCE_ROOT; };
 		9134B87A3D9B678A8A2CA623 /* include_juce_audio_processors_lv2_libs.cpp */ /* include_juce_audio_processors_lv2_libs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = include_juce_audio_processors_lv2_libs.cpp; path = ../../JuceLibraryCode/include_juce_audio_processors_lv2_libs.cpp; sourceTree = SOURCE_ROOT; };
 		963ED97C104A537A5940E10C /* VST3 */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "viator-stereo-widener.vst3"; sourceTree = BUILT_PRODUCTS_DIR; };
 		96D8A334A02FB68D2519BADE /* include_juce_audio_plugin_client_VST3.cpp */ /* include_juce_audio_plugin_client_VST3.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = include_juce_audio_plugin_client_VST3.cpp; path = ../../JuceLibraryCode/include_juce_audio_plugin_client_VST3.cpp; sourceTree = SOURCE_ROOT; };
+		9805FCFB55F92EC2A83A5CFD /* include_juce_dsp.mm */ /* include_juce_dsp.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_dsp.mm; path = ../../JuceLibraryCode/include_juce_dsp.mm; sourceTree = SOURCE_ROOT; };
 		A0AB08AB6638FE2E1D529F44 /* juce_graphics */ /* juce_graphics */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_graphics; path = ../../../modules/JUCE/modules/juce_graphics; sourceTree = SOURCE_ROOT; };
 		A0F1548BACCF45B04658876B /* PluginProcessor.cpp */ /* PluginProcessor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PluginProcessor.cpp; path = ../../Source/PluginProcessor.cpp; sourceTree = SOURCE_ROOT; };
 		A40C50321C456EF94FFE2040 /* juce_gui_basics */ /* juce_gui_basics */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_gui_basics; path = ../../../modules/JUCE/modules/juce_gui_basics; sourceTree = SOURCE_ROOT; };
@@ -199,6 +202,7 @@
 				6B07C68830B547824A51D54A,
 				7275A829311506F51F505A5A,
 				67D6153CD503B6C92D70B16A,
+				8D144CB8C75E58497A922AF9,
 				19764A8F3FC75D85B54B2D2A,
 				A0AB08AB6638FE2E1D529F44,
 				A40C50321C456EF94FFE2040,
@@ -300,6 +304,7 @@
 				EFC303422888E4DA8D3E3373,
 				7C3D0FFCAAD28FD38B36FBCC,
 				8235F435B68FAF536071BE08,
+				9805FCFB55F92EC2A83A5CFD,
 				202D2F6FB4642931DD6711A1,
 				23CC71D297C9FA21D5116E4E,
 				5292B60A46AEF07547145BDE,
@@ -578,6 +583,7 @@
 				072F95F81318EAC1688169FB,
 				01494DD6E6E93281AED23BC0,
 				8ED9CEABA1FFBF4A4863CCA1,
+				690C88698F259BA814DB2FD2,
 				45D8A1BB3B9AEB5FB04ED322,
 				E9C7C2458FFE394853F98E18,
 				28613E94822273B22131ED19,
@@ -663,6 +669,7 @@
 					"JUCE_MODULE_AVAILABLE_juce_audio_utils=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
 					"JUCE_MODULE_AVAILABLE_juce_data_structures=1",
+					"JUCE_MODULE_AVAILABLE_juce_dsp=1",
 					"JUCE_MODULE_AVAILABLE_juce_events=1",
 					"JUCE_MODULE_AVAILABLE_juce_graphics=1",
 					"JUCE_MODULE_AVAILABLE_juce_gui_basics=1",
@@ -777,6 +784,7 @@
 					"JUCE_MODULE_AVAILABLE_juce_audio_utils=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
 					"JUCE_MODULE_AVAILABLE_juce_data_structures=1",
+					"JUCE_MODULE_AVAILABLE_juce_dsp=1",
 					"JUCE_MODULE_AVAILABLE_juce_events=1",
 					"JUCE_MODULE_AVAILABLE_juce_graphics=1",
 					"JUCE_MODULE_AVAILABLE_juce_gui_basics=1",
@@ -892,6 +900,7 @@
 					"JUCE_MODULE_AVAILABLE_juce_audio_utils=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
 					"JUCE_MODULE_AVAILABLE_juce_data_structures=1",
+					"JUCE_MODULE_AVAILABLE_juce_dsp=1",
 					"JUCE_MODULE_AVAILABLE_juce_events=1",
 					"JUCE_MODULE_AVAILABLE_juce_graphics=1",
 					"JUCE_MODULE_AVAILABLE_juce_gui_basics=1",
@@ -1004,6 +1013,7 @@
 					"JUCE_MODULE_AVAILABLE_juce_audio_utils=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
 					"JUCE_MODULE_AVAILABLE_juce_data_structures=1",
+					"JUCE_MODULE_AVAILABLE_juce_dsp=1",
 					"JUCE_MODULE_AVAILABLE_juce_events=1",
 					"JUCE_MODULE_AVAILABLE_juce_graphics=1",
 					"JUCE_MODULE_AVAILABLE_juce_gui_basics=1",
@@ -1121,6 +1131,7 @@
 					"JUCE_MODULE_AVAILABLE_juce_audio_utils=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
 					"JUCE_MODULE_AVAILABLE_juce_data_structures=1",
+					"JUCE_MODULE_AVAILABLE_juce_dsp=1",
 					"JUCE_MODULE_AVAILABLE_juce_events=1",
 					"JUCE_MODULE_AVAILABLE_juce_graphics=1",
 					"JUCE_MODULE_AVAILABLE_juce_gui_basics=1",
@@ -1235,6 +1246,7 @@
 					"JUCE_MODULE_AVAILABLE_juce_audio_utils=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
 					"JUCE_MODULE_AVAILABLE_juce_data_structures=1",
+					"JUCE_MODULE_AVAILABLE_juce_dsp=1",
 					"JUCE_MODULE_AVAILABLE_juce_events=1",
 					"JUCE_MODULE_AVAILABLE_juce_graphics=1",
 					"JUCE_MODULE_AVAILABLE_juce_gui_basics=1",
@@ -1348,6 +1360,7 @@
 					"JUCE_MODULE_AVAILABLE_juce_audio_utils=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
 					"JUCE_MODULE_AVAILABLE_juce_data_structures=1",
+					"JUCE_MODULE_AVAILABLE_juce_dsp=1",
 					"JUCE_MODULE_AVAILABLE_juce_events=1",
 					"JUCE_MODULE_AVAILABLE_juce_graphics=1",
 					"JUCE_MODULE_AVAILABLE_juce_gui_basics=1",
@@ -1464,6 +1477,7 @@
 					"JUCE_MODULE_AVAILABLE_juce_audio_utils=1",
 					"JUCE_MODULE_AVAILABLE_juce_core=1",
 					"JUCE_MODULE_AVAILABLE_juce_data_structures=1",
+					"JUCE_MODULE_AVAILABLE_juce_dsp=1",
 					"JUCE_MODULE_AVAILABLE_juce_events=1",
 					"JUCE_MODULE_AVAILABLE_juce_graphics=1",
 					"JUCE_MODULE_AVAILABLE_juce_gui_basics=1",
