@@ -50,6 +50,7 @@ private:
     juce::OwnedArray<viator_dsp::SVFilter<float>> _filters;
     juce::AudioProcessLoadMeasurer _cpuMeasureModule;
     std::atomic<float> _cpuLoad;
+    juce::OwnedArray<viator_dsp::FilterBank<float>> _filterBank;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ViatorstereowidenerAudioProcessor)
 };

@@ -83,15 +83,10 @@ void ViatorstereowidenerAudioProcessor::prepareToPlay (double sampleRate, int sa
     m_spec.maximumBlockSize = samplesPerBlock;
     m_spec.numChannels = getTotalNumInputChannels();
     
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 10; i++)
     {
-        _filters.add(std::make_unique<viator_dsp::SVFilter<float>>());
-        _filters[i]->prepare(m_spec);
-        _filters[i]->setParameter(viator_dsp::SVFilter<float>::ParameterId::kType, viator_dsp::SVFilter<float>::FilterType::kLowPass);
-        _filters[i]->setParameter(viator_dsp::SVFilter<float>::ParameterId::kQType, viator_dsp::SVFilter<float>::QType::kParametric);
-        _filters[i]->setParameter(viator_dsp::SVFilter<float>::ParameterId::kCutoff, 1000.0);
-        _filters[i]->setParameter(viator_dsp::SVFilter<float>::ParameterId::kQ, 0.1);
-        _filters[i]->setParameter(viator_dsp::SVFilter<float>::ParameterId::kGain, 0.0);
+        _filterBank.add(std::make_unique<viator_dsp::FilterBank<float>>());
+        _filterBank[i]->prepare(m_spec);
     }
     
     _cpuMeasureModule.reset(sampleRate, samplesPerBlock);
@@ -137,9 +132,9 @@ void ViatorstereowidenerAudioProcessor::processBlock (juce::AudioBuffer<float>& 
     
     juce::dsp::AudioBlock<float> block {buffer};
     
-    for (auto& filter : _filters)
+    for (int i = 0; i < 10; i++)
     {
-        filter->process(juce::dsp::ProcessContextReplacing<float>(block));
+        _filterBank[i]->process(juce::dsp::ProcessContextReplacing<float>(block));
     }
     
     _cpuLoad.store(_cpuMeasureModule.getLoadAsPercentage());
