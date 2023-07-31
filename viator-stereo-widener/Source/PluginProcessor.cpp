@@ -144,11 +144,6 @@ void ViatorstereowidenerAudioProcessor::parameterChanged(const juce::String &par
 
 void ViatorstereowidenerAudioProcessor::updateParameters()
 {
-    auto lp = _treeState.getRawParameterValue(ViatorParameters::lpID)->load();
-    for (int i = 0; i < 10; i++)
-    {
-        _filterBank[i]->updateParameters(lp, 0.7, 1.0);
-    }
 }
 
 #pragma mark Prepare
@@ -157,12 +152,6 @@ void ViatorstereowidenerAudioProcessor::prepareToPlay (double sampleRate, int sa
     m_spec.sampleRate = sampleRate;
     m_spec.maximumBlockSize = samplesPerBlock;
     m_spec.numChannels = getTotalNumInputChannels();
-    
-    for (int i = 0; i < 10; i++)
-    {
-        _filterBank.add(std::make_unique<viator_dsp::FastFilter<float>>());
-        _filterBank[i]->prepare(m_spec);
-    }
     
     _cpuMeasureModule.reset(sampleRate, samplesPerBlock);
     _cpuLoad.store(0.0);
@@ -207,9 +196,29 @@ void ViatorstereowidenerAudioProcessor::processBlock (juce::AudioBuffer<float>& 
     
     juce::dsp::AudioBlock<float> block {buffer};
     
-    for (int i = 0; i < 10; i++)
+    auto width = _treeState.getRawParameterValue(ViatorParameters::widthID)->load();
+    
+    if (buffer.getNumChannels() > 1)
     {
-        _filterBank[i]->process(juce::dsp::ProcessContextReplacing<float>(block));
+        for (int channel = 0; channel < buffer.getNumChannels(); channel++)
+        {
+            auto* data = buffer.getWritePointer(channel);
+            auto* leftInputData = buffer.getWritePointer(0);
+            auto* rightInputData = buffer.getWritePointer(1);
+            for (int sample = 0; sample < buffer.getNumSamples(); sample++)
+            {
+                auto mid_x = leftInputData[sample] + rightInputData[sample];
+                auto side_x = leftInputData[sample] - rightInputData[sample];
+                
+                auto newMid = juce::jmap(width, 0.0f, 1.0f, 0.5f, 0.25f) * mid_x;
+                auto newSides = juce::jmap(width, 0.0f, 1.0f, 0.5f, 0.75f) * side_x;
+                auto newLeftOut = newMid + newSides;
+                auto newRightOut = newMid - newSides;
+                
+                leftInputData[sample] = newLeftOut;
+                rightInputData[sample] = newRightOut;
+            }
+        }
     }
     
     _cpuLoad.store(_cpuMeasureModule.getLoadAsPercentage());

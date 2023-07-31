@@ -53,10 +53,8 @@ private:
     
     // dsp
     juce::dsp::ProcessSpec m_spec;
-    juce::OwnedArray<viator_dsp::SVFilter<float>> _filters;
     juce::AudioProcessLoadMeasurer _cpuMeasureModule;
     std::atomic<float> _cpuLoad;
-    juce::OwnedArray<viator_dsp::FastFilter<float>> _filterBank;
     
     // parameters
     juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
