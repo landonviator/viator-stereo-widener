@@ -23,4 +23,5 @@ void ViatorParameters::Params::initSliderParams()
 
 void ViatorParameters::Params::initButtonParams()
 {
+    _buttonParams.push_back({ViatorParameters::rangeID, ViatorParameters::rangeName, false});
 }

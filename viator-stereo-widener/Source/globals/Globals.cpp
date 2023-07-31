@@ -11,4 +11,7 @@ const juce::String outputName = "Output";
 
 extern const juce::String widthID = "widthID";
 extern const juce::String widthName = "Width";
+
+extern const juce::String rangeID = "rangeID";
+extern const juce::String rangeName = "Extreme";
 }

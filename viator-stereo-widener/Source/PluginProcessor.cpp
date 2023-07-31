@@ -144,6 +144,14 @@ void ViatorstereowidenerAudioProcessor::parameterChanged(const juce::String &par
 
 void ViatorstereowidenerAudioProcessor::updateParameters()
 {
+    // width
+    auto width = _treeState.getRawParameterValue(ViatorParameters::widthID)->load();
+    _width.store(width);
+    
+    // range
+    auto extreme = _treeState.getRawParameterValue(ViatorParameters::rangeID)->load();
+    _extreme.store(extreme);
+    _widthRange.store(extreme ? 0.0f : 0.35f);
 }
 
 #pragma mark Prepare
@@ -152,6 +160,14 @@ void ViatorstereowidenerAudioProcessor::prepareToPlay (double sampleRate, int sa
     m_spec.sampleRate = sampleRate;
     m_spec.maximumBlockSize = samplesPerBlock;
     m_spec.numChannels = getTotalNumInputChannels();
+    
+    _leftCrossoverFilter.prepare(m_spec);
+    _leftCrossoverFilter.setType(juce::dsp::LinkwitzRileyFilterType::lowpass);
+    _leftCrossoverFilter.setCutoffFrequency(500.0);
+    
+    _rightCrossoverFilter.prepare(m_spec);
+    _rightCrossoverFilter.setType(juce::dsp::LinkwitzRileyFilterType::lowpass);
+    _rightCrossoverFilter.setCutoffFrequency(500.0);
     
     _cpuMeasureModule.reset(sampleRate, samplesPerBlock);
     _cpuLoad.store(0.0);
@@ -194,29 +210,32 @@ void ViatorstereowidenerAudioProcessor::processBlock (juce::AudioBuffer<float>& 
 {
     juce::AudioProcessLoadMeasurer::ScopedTimer s(_cpuMeasureModule);
     
-    juce::dsp::AudioBlock<float> block {buffer};
-    
-    auto width = _treeState.getRawParameterValue(ViatorParameters::widthID)->load();
-    
     if (buffer.getNumChannels() > 1)
     {
         for (int channel = 0; channel < buffer.getNumChannels(); channel++)
         {
-            auto* data = buffer.getWritePointer(channel);
             auto* leftInputData = buffer.getWritePointer(0);
             auto* rightInputData = buffer.getWritePointer(1);
             for (int sample = 0; sample < buffer.getNumSamples(); sample++)
             {
-                auto mid_x = leftInputData[sample] + rightInputData[sample];
-                auto side_x = leftInputData[sample] - rightInputData[sample];
+                float leftXLow;
+                float rightXLow;
+                float leftXHigh;
+                float rightXHigh;
                 
-                auto newMid = juce::jmap(width, 0.0f, 1.0f, 0.5f, 0.25f) * mid_x;
-                auto newSides = juce::jmap(width, 0.0f, 1.0f, 0.5f, 0.75f) * side_x;
+                _leftCrossoverFilter.processSample(channel, leftInputData[sample], leftXLow, leftXHigh);
+                _rightCrossoverFilter.processSample(channel, rightInputData[sample], rightXLow, rightXHigh);
+                
+                auto mid_x = leftInputData[sample] + rightInputData[sample];
+                auto side_x = _extreme.load() ? (leftInputData[sample] - rightInputData[sample]) : (leftXHigh - rightXHigh);
+                
+                auto newMid = juce::jmap(_width.load(), 0.0f, 1.0f, 0.5f, _widthRange.load()) * mid_x;
+                auto newSides = juce::jmap(_width.load(), 0.0f, 1.0f, 0.5f, 1.0f - _widthRange.load()) * side_x;
                 auto newLeftOut = newMid + newSides;
                 auto newRightOut = newMid - newSides;
                 
-                leftInputData[sample] = newLeftOut;
-                rightInputData[sample] = newRightOut;
+                leftInputData[sample] = newLeftOut * juce::jmap(_width.load(), 0.0f, 1.0f, 1.0f, 1.1f);
+                rightInputData[sample] = newRightOut * juce::jmap(_width.load(), 0.0f, 1.0f, 1.0f, 1.1f);
             }
         }
     }

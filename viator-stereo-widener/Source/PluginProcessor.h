@@ -56,6 +56,12 @@ private:
     juce::AudioProcessLoadMeasurer _cpuMeasureModule;
     std::atomic<float> _cpuLoad;
     
+    juce::dsp::LinkwitzRileyFilter<float> _leftCrossoverFilter;
+    juce::dsp::LinkwitzRileyFilter<float> _rightCrossoverFilter;
+    std::atomic<float> _widthRange = 0.4f;
+    std::atomic<float> _width = 0.0f;
+    std::atomic<bool> _extreme = false;
+    
     // parameters
     juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
     void parameterChanged (const juce::String& parameterID, float newValue) override;
